@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+
+# Configurar el evento push
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    # Configurar el runner
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Descargar el código
+      uses: actions/checkout@v4
+
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    # Instalar dependencias
+    - name: Instalar dependencias
+      run: npm install
+
+    # Ejecutar pruebas
+    - name: Ejecutar pruebas
+      run: npm test
+
+    # Construir la aplicación
+    - name: Construir la aplicación
+      run: echo "Construcción completada exitosamente."
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+    # Configurar el despliegue
+    - name: Configurar el despliegue
+      run: echo "Desplegando la aplicación en producción..."
